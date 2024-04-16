@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const urlRoute = require("./routes/url");
 const URL = require("./model/url");
 const connect = require("./connect");
@@ -15,8 +16,15 @@ connect("mongodb://localhost:27017/short-url")
 
 app.use(express.json());
 app.use("/url", urlRoute);
+app.set("view engine", "ejs");
+app.set("views", path.resolve("./views"));
 
-app.get("/:short_id", async (req, res) => {
+app.get("/test", async (req, res) => {
+	const urls = await URL.find({});
+	return res.render("index", { urls: urls });
+});
+
+app.get("/url/:short_id", async (req, res) => {
 	const short_id = req.params.short_id;
 	const url = await URL.findOneAndUpdate(
 		{ short_id: short_id },

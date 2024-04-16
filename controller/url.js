@@ -17,8 +17,8 @@ async function createShortUrl(req, res) {
 }
 
 async function getAnalytics(req, res) {
-	const short_id = req.query.short_id;
-	const url = await URL.findOne(short_id);
+	const short_id = req.params.short_id;
+	const url = await URL.findOne({ short_id: short_id });
 	if (!url) {
 		return res.status(404).json({ error: "url not found" });
 	}
