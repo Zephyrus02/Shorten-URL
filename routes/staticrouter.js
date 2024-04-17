@@ -5,7 +5,7 @@ router.get("/", async (req, res) => {
 	if(!req.user){
 		return res.redirect("/login");
 	}
-	const allURL = await URL.find({createdBy: req.user._id});
+	const allURL = await URL.find({createdBy: req.user.id});
 	return res.render("index", { urls: allURL });
 });
 
