@@ -1,12 +1,21 @@
 const express = require("express");
-const path = require("path");
-const urlRoute = require("./routes/url");
-const URL = require("./model/url");
 const connect = require("./connect");
+const path = require("path");
+const URL = require("./model/url");
+const cookieParser = require("cookie-parser");
+// import middleware
+const { restrictUser, checkAuth } = require("./middleware/auth");
+
+// import routes
+const urlRoute = require("./routes/url");
 const staticRouter = require("./routes/staticrouter");
+const userRoute = require("./routes/user");
+
+// Create express app
 const app = express();
 const port = 3000;
 
+// Connect to database
 connect("mongodb://localhost:27017/short-url")
 	.then(() => {
 		console.log("Connected to database");
@@ -15,11 +24,17 @@ connect("mongodb://localhost:27017/short-url")
 		console.error("Error connecting to database", error);
 	});
 
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/url", urlRoute);
-app.use("/", staticRouter);
+app.use(cookieParser());
 
+// Routes
+app.use("/url", restrictUser, urlRoute);
+app.use("/user", userRoute);
+app.use("/", checkAuth, staticRouter);
+
+// Set view engine
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 

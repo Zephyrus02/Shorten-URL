@@ -3,7 +3,7 @@ const URL = require("../model/url");
 
 async function createShortUrl(req, res) {
 	const body = req.body;
-	const allURL = await URL.find({});
+	const allURL = await URL.find({ createdBy: req.user._id });
 	if (!body.url) {
 		return res.status(400).json({ error: "url is required" });
 	}
@@ -12,8 +12,8 @@ async function createShortUrl(req, res) {
 		short_id: short_id,
 		redirected_url: body.url,
 		visits: [],
+		createdBy: req.user._id,
 	});
-	console.log("short_id created: ", short_id);
 	return res.render("index", { id: short_id, urls: allURL });
 }
 
