@@ -4,7 +4,7 @@ const path = require("path");
 const URL = require("./model/url");
 const cookieParser = require("cookie-parser");
 // import middleware
-const { restrictUser, checkAuth } = require("./middleware/auth");
+const { coreAuth, restrictUser } = require("./middleware/auth");
 
 // import routes
 const urlRoute = require("./routes/url");
@@ -28,11 +28,12 @@ connect("mongodb://localhost:27017/short-url")
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(coreAuth);
 
 // Routes
-app.use("/url", restrictUser, urlRoute);
+app.use("/url", restrictUser(["normal", "admin"]), urlRoute);
 app.use("/user", userRoute);
-app.use("/", checkAuth, staticRouter);
+app.use("/", staticRouter);
 
 // Set view engine
 app.set("view engine", "ejs");

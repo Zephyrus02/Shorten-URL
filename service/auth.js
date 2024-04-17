@@ -8,6 +8,7 @@ function setUser(user) {
 		{
 			id: user.id,
 			email: user.email,
+			role: user.role,
 		},
 		secret,
 		{
