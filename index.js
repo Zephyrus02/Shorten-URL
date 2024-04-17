@@ -3,6 +3,7 @@ const path = require("path");
 const urlRoute = require("./routes/url");
 const URL = require("./model/url");
 const connect = require("./connect");
+const staticRouter = require("./routes/staticrouter");
 const app = express();
 const port = 3000;
 
@@ -15,7 +16,10 @@ connect("mongodb://localhost:27017/short-url")
 	});
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use("/url", urlRoute);
+app.use("/", staticRouter);
+
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
