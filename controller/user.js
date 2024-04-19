@@ -1,5 +1,4 @@
 const User = require("../model/user");
-const { v4: uuidv4 } = require("uuid");
 const { setUser } = require("../service/auth");
 
 async function handleUserSignup(req, res) {
@@ -20,6 +19,7 @@ async function handleUserLogin(req, res) {
 	try {
 		const { email, password } = req.body;
 		const user = await User.findOne({ email, password });
+		console.log(user);
 		if (!user) {
 			return res
 				.status(401)

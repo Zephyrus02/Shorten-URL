@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
-async function connect() {
+async function connect(url) {
 	try {
-		await mongoose.connect("mongodb://localhost:27017/url-shortener", {
+		// Replace the following with your complete connection string
+		await mongoose.connect(url, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 		});
@@ -12,3 +13,34 @@ async function connect() {
 }
 
 module.exports = connect;
+
+// const { MongoClient, ServerApiVersion } = require("mongodb");
+// const uri =
+// 	"mongodb+srv://zephyrus02:@neesh0202@url-shortner.8thfn8i.mongodb.net/?retryWrites=true&w=majority&appName=url-shortner";
+
+// // Create a MongoClient with a MongoClientOptions object to set the Stable API version
+// const client = new MongoClient(uri, {
+// 	serverApi: {
+// 		version: ServerApiVersion.v1,
+// 		strict: true,
+// 		deprecationErrors: true,
+// 	},
+// });
+
+// async function run() {
+// 	try {
+// 		// Connect the client to the server	(optional starting in v4.7)
+// 		await client.connect();
+// 		// Send a ping to confirm a successful connection
+// 		await client.db("url-shortner").command({ ping: 1 });
+// 		console.log(
+// 			"Pinged your deployment. You successfully connected to MongoDB!"
+// 		);
+// 	} finally {
+// 		// Ensures that the client will close when you finish/error
+// 		await client.close();
+// 	}
+// }
+// run().catch(console.dir);
+
+// module.exports = run;

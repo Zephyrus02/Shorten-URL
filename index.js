@@ -16,7 +16,7 @@ const app = express();
 const port = 3000;
 
 // Connect to database
-connect("mongodb://localhost:27017/short-url")
+connect("mongodb+srv://zephyrus02:Aneesh0202@url-shortner.8thfn8i.mongodb.net/?retryWrites=true&w=majority&appName=url-shortner")
 	.then(() => {
 		console.log("Connected to database");
 	})
